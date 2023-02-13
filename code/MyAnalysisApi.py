@@ -1,6 +1,7 @@
 import os
-from Parameters import THESHOLD_SALES_VALUE, PROJECT_ROOT_PATH
+from  Parameters import THESHOLD_SALES_VALUE, PROJECT_ROOT_PATH
 import pandas as pd
+
 
 def setup_env():
     os.chdir(PROJECT_ROOT_PATH)
@@ -37,6 +38,22 @@ def split_by_store(df, column):
         
     return data_per_store
 
+def group_by_store(df, key_columns):
+    
+  
+    grouped_by_store = df.groupby(by=key_columns)
+    result = grouped_by_store.agg({
+        
+        "Weekly_Sales" : "mean",
+        "IsHoliday" : "first"
+    }
+    )
+    return result
+
+
+
 def save_df(df, path, filename):
     df.to_csv(path + filename)
-    
+
+
+
